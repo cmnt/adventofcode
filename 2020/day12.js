@@ -6,9 +6,8 @@ const {
     const data = await getData(12);
     const puzzle = data.data.split('\n');
     puzzle.length = puzzle.length - 1;
-    const test = ['F10', 'N3', 'F7', 'R90', 'F11'];
     // console.log(puzzle);
-    // console.log(resultPart1(puzzle));
+    console.log(resultPart1(puzzle));
     console.log(resultPart2(puzzle));
 })()
 
@@ -48,7 +47,7 @@ class Ship {
         const value = parseInt(instruction.slice(1));
 
         if (action === 'F') {
-            this.isWaypoint ? this.go(value) : this.setDistance(this.getFrontOrientation(), value);
+            this.isWaypoint ? this.go(value) : this.setDistance(this.getOrientation(), value);
             return;
         }
 
@@ -65,18 +64,19 @@ class Ship {
     }
 
     go(value) {
-        const northWaypointOrientation = this.getFrontOrientation();
-        const eastWaypointOrientation = this.getFrontOrientation(90);
+        const northWaypointOrientation = this.getOrientation();
+        const eastWaypointOrientation = this.getOrientation(90);
 
         this.setDistance(northWaypointOrientation, value * this.waypoint.north);
         this.setDistance(eastWaypointOrientation, value * this.waypoint.east);
     }
 
-    getFrontOrientation(base = 0) {
-        if (this.facing + base === 0) return 'N';
-        if (this.facing + base === 90) return 'E';
-        if (this.facing + base === 180) return 'S';
-        if (this.facing + base === 270) return 'W';
+    getOrientation(base = 0) {
+        const orientation = (this.facing + base) % 360;
+        if (orientation === 0) return 'N';
+        if (orientation === 90) return 'E';
+        if (orientation === 180) return 'S';
+        if (orientation === 270) return 'W';
     }
 
     setDistance(action, value) {
@@ -97,18 +97,64 @@ class Ship {
     }
 
     setDistanceWaypoint(action, value) {
+        const orientation = this.getOrientation();
         switch (action) {
             case 'E':
-                this.waypoint.east += value;
+                if (orientation === 'N') {
+                    this.waypoint.east += value;
+                } else
+                if (orientation === 'E') {
+                    this.waypoint.north += value;
+                } else
+                if (orientation === 'S') {
+                    this.waypoint.east -= value;
+                } else
+                if (orientation === 'W') {
+                    this.waypoint.north -= value;
+                }
+
                 break;
             case 'W':
-                this.waypoint.east -= value;
+                if (orientation === 'N') {
+                    this.waypoint.east -= value;
+                } else
+                if (orientation === 'E') {
+                    this.waypoint.north -= value;
+                } else
+                if (orientation === 'S') {
+                    this.waypoint.east += value;
+                } else
+                if (orientation === 'W') {
+                    this.waypoint.north += value;
+                }
                 break;
             case 'N':
-                this.waypoint.north += value;
+                if (orientation === 'N') {
+                    this.waypoint.north += value;
+                } else
+                if (orientation === 'E') {
+                    this.waypoint.east -= value;
+                } else
+                if (orientation === 'S') {
+                    this.waypoint.north -= value;
+                } else
+                if (orientation === 'W') {
+                    this.waypoint.east += value;
+                }
                 break;
             case 'S':
-                this.waypoint.north -= value;
+                if (orientation === 'N') {
+                    this.waypoint.north -= value;
+                } else
+                if (orientation === 'E') {
+                    this.waypoint.east += value;
+                } else
+                if (orientation === 'S') {
+                    this.waypoint.north += value;
+                } else
+                if (orientation === 'W') {
+                    this.waypoint.east -= value;
+                }
                 break;
         }
     }
@@ -119,9 +165,6 @@ class Ship {
         switch (instruction) {
             case 'L90':
                 value = 270;
-                break;
-            case 'L180':
-                value = 180;
                 break;
             case 'L270':
                 value = 90;
