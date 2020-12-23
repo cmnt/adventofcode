@@ -1,6 +1,6 @@
 const {
     getData
-} = require("./input");
+} = require('./input');
 
 (async () => {
     const data = await getData(6);
@@ -9,19 +9,19 @@ const {
     // console.log(puzzle);
     console.log(resultPart1(puzzle));
     console.log(resultPart2(puzzle));
-})()
+})();
 
 const resultPart1 = (puzzle) => {
     const matrice = transformPuzzleToMatrice(puzzle);
-    const groupDistinctAnswers = matrice.map(groupAnswers => getGroupDistinctAnswers(groupAnswers))
-    return groupDistinctAnswers.reduce((sum, distinctAnswerGroup) => sum + distinctAnswerGroup.length, 0)
-}
+    const groupDistinctAnswers = matrice.map(groupAnswers => getGroupDistinctAnswers(groupAnswers));
+    return groupDistinctAnswers.reduce((sum, distinctAnswerGroup) => sum + distinctAnswerGroup.length, 0);
+};
 
 const resultPart2 = (puzzle) => {
     const matrice = transformPuzzleToMatrice(puzzle);
-    const groupUnionAnswers = matrice.map(groupAnswers => getGroupUnionAnswers(groupAnswers))
-    return groupUnionAnswers.reduce((sum, distinctAnswerGroup) => sum + distinctAnswerGroup.length, 0)
-}
+    const groupUnionAnswers = matrice.map(groupAnswers => getGroupUnionAnswers(groupAnswers));
+    return groupUnionAnswers.reduce((sum, distinctAnswerGroup) => sum + distinctAnswerGroup.length, 0);
+};
 
 const transformPuzzleToMatrice = (puzzle) => {
     return puzzle.reduce((matrice, line) => {
@@ -31,13 +31,13 @@ const transformPuzzleToMatrice = (puzzle) => {
         }
 
         const answerGroup = matrice[matrice.length - 1];
-        answerGroup.push(line)
+        answerGroup.push(line);
 
-        return matrice
+        return matrice;
     }, [
         []
-    ])
-}
+    ]);
+};
 
 const getGroupDistinctAnswers = (groupAnswers) => {
     return groupAnswers.reduce((groupDistinctAnswers, personAnswers) => {
@@ -45,10 +45,10 @@ const getGroupDistinctAnswers = (groupAnswers) => {
             if (!groupDistinctAnswers.includes(answer)) {
                 groupDistinctAnswers.push(answer);
             }
-        })
+        });
         return groupDistinctAnswers;
-    }, [])
-}
+    }, []);
+};
 
 const getGroupUnionAnswers = (groupAnswers) => {
     const FirstPersonAnswers = groupAnswers[0].split('');
@@ -59,5 +59,5 @@ const getGroupUnionAnswers = (groupAnswers) => {
             groupUnionAnswers.push(answer);
         }
         return groupUnionAnswers;
-    }, [])
-}
+    }, []);
+};

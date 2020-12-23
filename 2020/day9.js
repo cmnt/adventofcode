@@ -1,6 +1,6 @@
 const {
     getData
-} = require("./input");
+} = require('./input');
 
 (async () => {
     const data = await getData(9);
@@ -9,17 +9,17 @@ const {
     // console.log(puzzle);
     console.log(resultPart1(puzzle));
     console.log(resultPart2(puzzle));
-})()
+})();
 
 const resultPart1 = (puzzle) => {
     return findInvalidNumber(puzzle);
-}
+};
 
 const resultPart2 = (puzzle) => {
-    const contiguousSet = findContiguousSet(puzzle, findInvalidNumber(puzzle))
-    const sumMaxMin = Math.min(...contiguousSet) + Math.max(...contiguousSet)
+    const contiguousSet = findContiguousSet(puzzle, findInvalidNumber(puzzle));
+    const sumMaxMin = Math.min(...contiguousSet) + Math.max(...contiguousSet);
     return sumMaxMin;
-}
+};
 
 const findContiguousSet = (sequence, invalidNumber) => {
     for (let index = 0; index < sequence.length; index++) {
@@ -28,7 +28,7 @@ const findContiguousSet = (sequence, invalidNumber) => {
             continue;
         }
 
-        const set = [number]
+        const set = [number];
         let sum = number;
         let nextIndex = index + 1;
         while (sum <= invalidNumber) {
@@ -36,24 +36,24 @@ const findContiguousSet = (sequence, invalidNumber) => {
                 return set;
             }
             const nextNumber = parseInt(sequence[nextIndex]);
-            set.push(nextNumber)
+            set.push(nextNumber);
             sum += nextNumber;
             nextIndex += 1;
         }
     }
-}
+};
 
 const findInvalidNumber = (sequence) => {
     for (let index = 25; index < sequence.length; index++) {
         const number = parseInt(sequence[index]);
-        const subSequence = sequence.slice(index - 25, index)
+        const subSequence = sequence.slice(index - 25, index);
         const isValid = isValidNumberInSequence(number, subSequence);
 
         if (!isValid) {
-            return number
+            return number;
         }
     }
-}
+};
 
 const isValidNumberInSequence = (number, sequence) => {
     for (let index1 = 0; index1 < sequence.length - 1; index1++) {
@@ -73,4 +73,4 @@ const isValidNumberInSequence = (number, sequence) => {
 
     }
     return false;
-}
+};

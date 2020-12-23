@@ -1,6 +1,6 @@
 const {
     getData
-} = require("./input");
+} = require('./input');
 
 const PROPERTIES = [{
     name: 'byr',
@@ -32,19 +32,19 @@ const PROPERTIES = [{
     // console.log(puzzle);
     console.log(resultPart1(puzzle));
     console.log(resultPart2(puzzle));
-})()
+})();
 
 const resultPart1 = (puzzle) => {
     const passports = transformToArrayOfObjectPassports(puzzle);
-    const validPassports = passports.filter((passport) => isPassportValidPart1(passport))
-    return validPassports.length
-}
+    const validPassports = passports.filter((passport) => isPassportValidPart1(passport));
+    return validPassports.length;
+};
 
 const resultPart2 = (puzzle) => {
     const passports = transformToArrayOfObjectPassports(puzzle);
-    const validPassports = passports.filter((passport) => isPassportValidPart2(passport))
-    return validPassports.length
-}
+    const validPassports = passports.filter((passport) => isPassportValidPart2(passport));
+    return validPassports.length;
+};
 
 const transformToArrayOfObjectPassports = (puzzle) => {
     return puzzle.reduce((transformArray, line) => {
@@ -64,14 +64,14 @@ const transformToArrayOfObjectPassports = (puzzle) => {
         transformArray[transformArray.length - 1] = {
             ...transformArray[transformArray.length - 1],
             ...newKeyValue
-        }
+        };
 
-        return transformArray
-    }, [{}])
-}
+        return transformArray;
+    }, [{}]);
+};
 
 const isPassportValidPart1 = (passport) => {
-    return PROPERTIES.every((property) => passport.hasOwnProperty(property.name));
-}
+    return PROPERTIES.every((property) => Object.prototype.hasOwnProperty.call(passport, property.name));
+};
 
-const isPassportValidPart2 = (passport) => PROPERTIES.every((property) => passport.hasOwnProperty(property.name) && property.regex.test(passport[property.name]));
+const isPassportValidPart2 = (passport) => PROPERTIES.every((property) => Object.prototype.hasOwnProperty.call(passport, property.name) && property.regex.test(passport[property.name]));

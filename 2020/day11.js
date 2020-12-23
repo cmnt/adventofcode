@@ -1,6 +1,6 @@
 const {
     getData
-} = require("./input");
+} = require('./input');
 
 (async () => {
     const data = await getData(11);
@@ -9,30 +9,29 @@ const {
     // console.log(puzzle);
     console.log(resultPart1(puzzle));
     console.log(resultPart2(puzzle));
-})()
+})();
 
 const resultPart1 = (puzzle) => {
     return computeRoundAndGetNumberOccupiedSeat(puzzle, true);
-}
+};
 
 const resultPart2 = (puzzle) => {
     return computeRoundAndGetNumberOccupiedSeat(puzzle, false);
-}
+};
 
 const computeRoundAndGetNumberOccupiedSeat = (seats, isJustNearNeighbour = true) => {
     let isSame = false;
     let newSeats = seats;
-    let round = 0;
 
     while (!isSame) {
         [newSeats, isSame] = computeRound(newSeats, isJustNearNeighbour);
     }
-    return getNumberOccupiedSeat(newSeats)
-}
+    return getNumberOccupiedSeat(newSeats);
+};
 
 const getNumberOccupiedSeat = (seats) => {
-    return seats.reduce((sum, line) => sum + line.reduce((s, seat) => seat === '#' ? s + 1 : s, 0), 0)
-}
+    return seats.reduce((sum, line) => sum + line.reduce((s, seat) => seat === '#' ? s + 1 : s, 0), 0);
+};
 
 const computeRound = (allSeats, isJustNearNeighbour) => {
     const newSeats = JSON.parse(JSON.stringify(allSeats));
@@ -50,11 +49,11 @@ const computeRound = (allSeats, isJustNearNeighbour) => {
         }
     }
     return [newSeats, isSame];
-}
+};
 
 const getNewPos = (allSeats, pos, isJustNearNeighbour) => {
     const [posY, posX] = pos;
-    const sumOccupiedNeighbour = isJustNearNeighbour ? getNeighboursJustNear(allSeats, pos) : getNeighboursSeen(allSeats, pos)
+    const sumOccupiedNeighbour = isJustNearNeighbour ? getNeighboursJustNear(allSeats, pos) : getNeighboursSeen(allSeats, pos);
 
     if (sumOccupiedNeighbour === 0) {
         return '#';
@@ -67,7 +66,7 @@ const getNewPos = (allSeats, pos, isJustNearNeighbour) => {
     }
 
     return allSeats[posY][posX];
-}
+};
 
 const getNeighboursJustNear = (allSeats, pos) => {
     const [posY, posX] = pos;
@@ -75,7 +74,7 @@ const getNeighboursJustNear = (allSeats, pos) => {
     for (let indexY = posY - 1; indexY <= posY + 1; indexY++) {
         for (let indexX = posX - 1; indexX <= posX + 1; indexX++) {
             const isValidRange = indexX >= 0 && indexX < allSeats[0].length && indexY >= 0 && indexY < allSeats.length;
-            const isOriginSeat = indexX === posX && indexY === posY
+            const isOriginSeat = indexX === posX && indexY === posY;
             if (!isValidRange || isOriginSeat) {
                 continue;
             }
@@ -86,7 +85,7 @@ const getNeighboursJustNear = (allSeats, pos) => {
         }
     }
     return sumOccupiedNeighbour;
-}
+};
 
 const getNeighboursSeen = (allSeats, pos) => {
     const [posY, posX] = pos;
@@ -193,4 +192,4 @@ const getNeighboursSeen = (allSeats, pos) => {
     }
 
     return neighbours.filter(Boolean).length;
-}
+};

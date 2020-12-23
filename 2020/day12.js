@@ -1,6 +1,7 @@
+/* eslint-disable indent */
 const {
     getData
-} = require("./input");
+} = require('./input');
 
 (async () => {
     const data = await getData(12);
@@ -9,19 +10,19 @@ const {
     // console.log(puzzle);
     console.log(resultPart1(puzzle));
     console.log(resultPart2(puzzle));
-})()
+})();
 
 const resultPart1 = (puzzle) => {
     const ship = new Ship(90, false);
-    ship.execInstructions(puzzle)
-    return ship.getManhattanDistance()
-}
+    ship.execInstructions(puzzle);
+    return ship.getManhattanDistance();
+};
 
 const resultPart2 = (puzzle) => {
     const ship = new Ship(0, true);
-    ship.execInstructions(puzzle)
-    return ship.getManhattanDistance()
-}
+    ship.execInstructions(puzzle);
+    return ship.getManhattanDistance();
+};
 
 
 class Ship {
@@ -33,7 +34,7 @@ class Ship {
         this.waypoint = {
             north: 1,
             east: 10
-        }
+        };
     }
 
     execInstructions(instructions) {

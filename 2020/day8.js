@@ -1,6 +1,7 @@
+/* eslint-disable indent */
 const {
     getData
-} = require("./input");
+} = require('./input');
 
 (async () => {
     const data = await getData(8);
@@ -9,12 +10,12 @@ const {
     // console.log(puzzle);
     console.log(resultPart1(puzzle));
     console.log(resultPart2(puzzle));
-})()
+})();
 
 const resultPart1 = (puzzle) => {
-    const [acc] = execInstructions(puzzle)
+    const [acc] = execInstructions(puzzle);
     return acc;
-}
+};
 
 const resultPart2 = (puzzle) => {
     for (let index = 0; index < puzzle.length; index++) {
@@ -27,11 +28,11 @@ const resultPart2 = (puzzle) => {
         const newInstructions = [...puzzle];
 
         if (instruction.startsWith('nop')) {
-            newInstructions[index] = `jmp${instruction.slice(3)}`
+            newInstructions[index] = `jmp${instruction.slice(3)}`;
         }
 
         if (instruction.startsWith('jmp')) {
-            newInstructions[index] = `nop${instruction.slice(3)}`
+            newInstructions[index] = `nop${instruction.slice(3)}`;
         }
 
         const [acc, isLoop] = execInstructions(newInstructions);
@@ -40,7 +41,7 @@ const resultPart2 = (puzzle) => {
         }
     }
 
-}
+};
 
 const execInstructions = (instructions) => {
     let acc = 0;
@@ -72,4 +73,4 @@ const execInstructions = (instructions) => {
         }
     }
     return [acc, isLoop];
-}
+};

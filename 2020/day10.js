@@ -1,6 +1,6 @@
 const {
     getData
-} = require("./input");
+} = require('./input');
 
 (async () => {
     const data = await getData(10);
@@ -9,20 +9,21 @@ const {
 
     console.log(resultPart1(puzzle));
     console.log(resultPart2(puzzle));
-})()
+})();
 
 const resultPart1 = (puzzle) => {
+    // eslint-disable-next-line no-unused-vars
     const [diff1, diff2, diff3] = getDifferences(puzzle);
     return diff1 * diff3;
-}
+};
 
 const resultPart2 = (puzzle) => {
     const adapters = puzzle.map(Number).sort((a, b) => a - b);
     const nodes = getNodes(adapters);
 
     const firstAdapters = adapters.filter(adpt => adpt > 0 && adpt <= 3);
-    return firstAdapters.reduce((sum, adtp) => nodes[adtp] + sum, 0)
-}
+    return firstAdapters.reduce((sum, adtp) => nodes[adtp] + sum, 0);
+};
 
 const getDifferences = (puzzle) => {
     const adapters = puzzle.map(Number).sort((a, b) => a - b);
@@ -30,7 +31,7 @@ const getDifferences = (puzzle) => {
 
     for (let i = 0; i < adapters.length; i++) {
         const adapter = adapters[i];
-        const precAdapter = i === 0 ? 0 : adapters[i - 1]
+        const precAdapter = i === 0 ? 0 : adapters[i - 1];
         const diff = adapter - precAdapter;
 
         if (diff > 3) break;
@@ -38,8 +39,8 @@ const getDifferences = (puzzle) => {
         differences[diff - 1] += 1;
     }
 
-    return differences
-}
+    return differences;
+};
 
 
 const getNodes = (adapters) => {
@@ -56,8 +57,8 @@ const getNodes = (adapters) => {
 
         const validePrecNodes = adapters.filter(adpt => adpt - node > 0 && adpt - node <= 3);
 
-        nodes[node] = validePrecNodes.reduce((sum, node) => sum + nodes[node], 0)
+        nodes[node] = validePrecNodes.reduce((sum, node) => sum + nodes[node], 0);
     }
     return nodes;
 
-}
+};
