@@ -1,12 +1,10 @@
 /* eslint-disable indent */
-const {
-    getData
-} = require('./input');
+const { getData } = require('./input');
 
 (async () => {
     const data = await getData(8);
     const puzzle = data.data.split('\n');
-    puzzle.length = puzzle.length - 1;
+    puzzle.length -= 1;
     // console.log(puzzle);
     console.log(resultPart1(puzzle));
     console.log(resultPart2(puzzle));
@@ -17,8 +15,9 @@ const resultPart1 = (puzzle) => {
     return acc;
 };
 
+// eslint-disable-next-line consistent-return
 const resultPart2 = (puzzle) => {
-    for (let index = 0; index < puzzle.length; index++) {
+    for (let index = 0; index < puzzle.length; index += 1) {
         const instruction = puzzle[index];
 
         if (instruction.startsWith('acc')) {
@@ -40,12 +39,11 @@ const resultPart2 = (puzzle) => {
             return acc;
         }
     }
-
 };
 
 const execInstructions = (instructions) => {
     let acc = 0;
-    let historyIndex = [];
+    const historyIndex = [];
     let indexNextInstruction = 0;
     let isLoop = false;
 
@@ -70,6 +68,8 @@ const execInstructions = (instructions) => {
                 break;
             case 'nop':
                 indexNextInstruction += 1;
+                break;
+            default:
         }
     }
     return [acc, isLoop];

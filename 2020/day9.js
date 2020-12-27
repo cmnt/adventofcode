@@ -1,19 +1,16 @@
-const {
-    getData
-} = require('./input');
+/* eslint-disable consistent-return */
+const { getData } = require('./input');
 
 (async () => {
     const data = await getData(9);
     const puzzle = data.data.split('\n');
-    puzzle.length = puzzle.length - 1;
+    puzzle.length -= 1;
     // console.log(puzzle);
     console.log(resultPart1(puzzle));
     console.log(resultPart2(puzzle));
 })();
 
-const resultPart1 = (puzzle) => {
-    return findInvalidNumber(puzzle);
-};
+const resultPart1 = (puzzle) => findInvalidNumber(puzzle);
 
 const resultPart2 = (puzzle) => {
     const contiguousSet = findContiguousSet(puzzle, findInvalidNumber(puzzle));
@@ -22,7 +19,7 @@ const resultPart2 = (puzzle) => {
 };
 
 const findContiguousSet = (sequence, invalidNumber) => {
-    for (let index = 0; index < sequence.length; index++) {
+    for (let index = 0; index < sequence.length; index += 1) {
         const number = parseInt(sequence[index]);
         if (number === invalidNumber) {
             continue;
@@ -44,7 +41,7 @@ const findContiguousSet = (sequence, invalidNumber) => {
 };
 
 const findInvalidNumber = (sequence) => {
-    for (let index = 25; index < sequence.length; index++) {
+    for (let index = 25; index < sequence.length; index += 1) {
         const number = parseInt(sequence[index]);
         const subSequence = sequence.slice(index - 25, index);
         const isValid = isValidNumberInSequence(number, subSequence);
@@ -56,10 +53,10 @@ const findInvalidNumber = (sequence) => {
 };
 
 const isValidNumberInSequence = (number, sequence) => {
-    for (let index1 = 0; index1 < sequence.length - 1; index1++) {
+    for (let index1 = 0; index1 < sequence.length - 1; index1 += 1) {
         const number1 = parseInt(sequence[index1]);
 
-        for (let index2 = index1; index2 < sequence.length; index2++) {
+        for (let index2 = index1; index2 < sequence.length; index2 += 1) {
             if (index1 === index2) {
                 continue;
             }
@@ -70,7 +67,6 @@ const isValidNumberInSequence = (number, sequence) => {
                 return true;
             }
         }
-
     }
     return false;
 };

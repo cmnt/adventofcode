@@ -1,52 +1,29 @@
-const {
-    getData
-} = require('./input');
+const { getData } = require('./input');
 
 (async () => {
     const data = await getData(3);
     const puzzle = data.data.split('\n');
-    puzzle.length = puzzle.length - 1;
+    puzzle.length -= 1;
     console.log(resultPart1(puzzle));
     console.log(resultPart2(puzzle));
     console.log(resultPart2WithOnlyOnePuzzleParsingUsingObject(puzzle));
     console.log(resultPart2WithOnlyOnePuzzleParsingUsingArray(puzzle));
 })();
 
-const slopes = [{
-    right: 1,
-    down: 1
-}, {
-    right: 3,
-    down: 1
-}, {
-    right: 5,
-    down: 1
-}, {
-    right: 7,
-    down: 1
-}, {
-    right: 1,
-    down: 2
-}];
+const slopes = [
+    { right: 1, down: 1 },
+    { right: 3, down: 1 },
+    { right: 5, down: 1 },
+    { right: 7, down: 1 },
+    { right: 1, down: 2 },
+];
 
-const resultPart1 = (puzzle) => {
-    return numberTreesEncounter(puzzle, {
-        right: 3,
-        down: 1
-    });
-};
+const resultPart1 = (puzzle) => numberTreesEncounter(puzzle, { right: 3, down: 1 });
 
-const resultPart2 = (puzzle) => {
-    return getNumTreesMult(puzzle, slopes);
-};
+const resultPart2 = (puzzle) => getNumTreesMult(puzzle, slopes);
 
 const resultPart2WithOnlyOnePuzzleParsingUsingObject = (puzzle) => {
-    let slopesWithresult = slopes.map((slope) => {
-        return {
-            ...slope,
-            trees: 0
-        };
-    });
+    const slopesWithresult = slopes.map((slope) => ({ ...slope, trees: 0 }));
     const widthPuzzle = puzzle[0].length;
 
     puzzle.map((line, index) => {
@@ -70,7 +47,7 @@ const resultPart2WithOnlyOnePuzzleParsingUsingArray = (puzzle) => {
     const trees = Array(slopes.length).fill(0);
     const widthPuzzle = puzzle[0].length;
 
-    const res = puzzle.reduce((trees, line, index) => {
+    const res = puzzle.reduce((accTrees, line, index) => {
         slopes.map((slope, indexSlope) => {
             if (index % slope.down !== 0) {
                 return;
@@ -79,16 +56,14 @@ const resultPart2WithOnlyOnePuzzleParsingUsingArray = (puzzle) => {
             const indexRow = (index * (slope.right / slope.down)) % widthPuzzle;
 
             if (line[indexRow] === '#') {
-                trees[indexSlope] += 1;
+                accTrees[indexSlope] += 1;
             }
-
         });
-        return trees;
+        return accTrees;
     }, trees);
 
     return res.reduce((treesMult, trees) => treesMult * trees, 1);
 };
-
 
 const getNumTreesMult = (puzzle, slopes) => {
     const res = slopes.map((slope) => numberTreesEncounter(puzzle, slope));

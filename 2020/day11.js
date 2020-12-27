@@ -1,23 +1,17 @@
-const {
-    getData
-} = require('./input');
+const { getData } = require('./input');
 
 (async () => {
     const data = await getData(11);
-    const puzzle = data.data.split('\n').map(line => line.split(''));
-    puzzle.length = puzzle.length - 1;
+    const puzzle = data.data.split('\n').map((line) => line.split(''));
+    puzzle.length -= 1;
     // console.log(puzzle);
     console.log(resultPart1(puzzle));
     console.log(resultPart2(puzzle));
 })();
 
-const resultPart1 = (puzzle) => {
-    return computeRoundAndGetNumberOccupiedSeat(puzzle, true);
-};
+const resultPart1 = (puzzle) => computeRoundAndGetNumberOccupiedSeat(puzzle, true);
 
-const resultPart2 = (puzzle) => {
-    return computeRoundAndGetNumberOccupiedSeat(puzzle, false);
-};
+const resultPart2 = (puzzle) => computeRoundAndGetNumberOccupiedSeat(puzzle, false);
 
 const computeRoundAndGetNumberOccupiedSeat = (seats, isJustNearNeighbour = true) => {
     let isSame = false;
@@ -29,16 +23,14 @@ const computeRoundAndGetNumberOccupiedSeat = (seats, isJustNearNeighbour = true)
     return getNumberOccupiedSeat(newSeats);
 };
 
-const getNumberOccupiedSeat = (seats) => {
-    return seats.reduce((sum, line) => sum + line.reduce((s, seat) => seat === '#' ? s + 1 : s, 0), 0);
-};
+const getNumberOccupiedSeat = (seats) => seats.reduce((sum, line) => sum + line.reduce((s, seat) => (seat === '#' ? s + 1 : s), 0), 0);
 
 const computeRound = (allSeats, isJustNearNeighbour) => {
     const newSeats = JSON.parse(JSON.stringify(allSeats));
     let isSame = true;
 
-    for (let posY = 0; posY < allSeats.length; posY++) {
-        for (let posX = 0; posX < allSeats[0].length; posX++) {
+    for (let posY = 0; posY < allSeats.length; posY += 1) {
+        for (let posX = 0; posX < allSeats[0].length; posX += 1) {
             if (newSeats[posY][posX] === '.') continue;
 
             newSeats[posY][posX] = getNewPos(allSeats, [posY, posX], isJustNearNeighbour);
@@ -71,8 +63,8 @@ const getNewPos = (allSeats, pos, isJustNearNeighbour) => {
 const getNeighboursJustNear = (allSeats, pos) => {
     const [posY, posX] = pos;
     let sumOccupiedNeighbour = 0;
-    for (let indexY = posY - 1; indexY <= posY + 1; indexY++) {
-        for (let indexX = posX - 1; indexX <= posX + 1; indexX++) {
+    for (let indexY = posY - 1; indexY <= posY + 1; indexY += 1) {
+        for (let indexX = posX - 1; indexX <= posX + 1; indexX += 1) {
             const isValidRange = indexX >= 0 && indexX < allSeats[0].length && indexY >= 0 && indexY < allSeats.length;
             const isOriginSeat = indexX === posX && indexY === posY;
             if (!isValidRange || isOriginSeat) {
@@ -94,11 +86,8 @@ const getNeighboursSeen = (allSeats, pos) => {
     const [isTop, isTopRight, isRight, isBottomRight, isBottom, isBottomLeft, isLeft, isTopLeft] = [0, 1, 2, 3, 4, 5, 6, 7];
     let round = 1;
 
-
-
     while (neighbours.filter(Boolean).length + endSeens.filter(Boolean).length !== 8) {
-
-        //top
+        // top
         if (!neighbours[isTop] && !endSeens[isTop]) {
             if (posY - round < 0) {
                 endSeens[isTop] = true;
@@ -109,7 +98,7 @@ const getNeighboursSeen = (allSeats, pos) => {
             }
         }
 
-        //top right
+        // top right
         if (!neighbours[isTopRight] && !endSeens[isTopRight]) {
             if (posY - round < 0 || posX + round >= allSeats[0].length) {
                 endSeens[isTopRight] = true;
@@ -120,7 +109,7 @@ const getNeighboursSeen = (allSeats, pos) => {
             }
         }
 
-        //right
+        // right
         if (!neighbours[isRight] && !endSeens[isRight]) {
             if (posX + round >= allSeats[0].length) {
                 endSeens[isRight] = true;
@@ -131,7 +120,7 @@ const getNeighboursSeen = (allSeats, pos) => {
             }
         }
 
-        //bottom right
+        // bottom right
         if (!neighbours[isBottomRight] && !endSeens[isBottomRight]) {
             if (posY + round >= allSeats.length || posX + round >= allSeats[0].length) {
                 endSeens[isBottomRight] = true;
@@ -142,7 +131,7 @@ const getNeighboursSeen = (allSeats, pos) => {
             }
         }
 
-        //bottom
+        // bottom
         if (!neighbours[isBottom] && !endSeens[isBottom]) {
             if (posY + round >= allSeats.length) {
                 endSeens[isBottom] = true;
@@ -153,7 +142,7 @@ const getNeighboursSeen = (allSeats, pos) => {
             }
         }
 
-        //bottom left
+        // bottom left
         if (!neighbours[isBottomLeft] && !endSeens[isBottomLeft]) {
             if (posY + round >= allSeats.length || posX - round < 0) {
                 endSeens[isBottomLeft] = true;
@@ -164,7 +153,7 @@ const getNeighboursSeen = (allSeats, pos) => {
             }
         }
 
-        //left
+        // left
         if (!neighbours[isLeft] && !endSeens[isLeft]) {
             if (posX - round < 0) {
                 endSeens[isLeft] = true;
@@ -175,7 +164,7 @@ const getNeighboursSeen = (allSeats, pos) => {
             }
         }
 
-        //top left
+        // top left
         if (!neighbours[isTopLeft] && !endSeens[isTopLeft]) {
             if (posY - round < 0 || posX - round < 0) {
                 endSeens[isTopLeft] = true;
@@ -185,8 +174,6 @@ const getNeighboursSeen = (allSeats, pos) => {
                 endSeens[isTopLeft] = true;
             }
         }
-
-
 
         round += 1;
     }

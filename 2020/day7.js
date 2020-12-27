@@ -1,11 +1,9 @@
-const {
-    getData
-} = require('./input');
+const { getData } = require('./input');
 
 (async () => {
     const data = await getData(7);
     const puzzle = data.data.split('\n');
-    puzzle.length = puzzle.length - 1;
+    puzzle.length -= 1;
     // console.log(puzzle);
     console.log(resultPart1(puzzle));
     console.log(resultPart2(puzzle));
@@ -13,7 +11,7 @@ const {
 
 const resultPart1 = (puzzle) => {
     const colorRules = puzzle.reduce((colorRules, rule) => addRule(colorRules, rule), {});
-    const numberRulesContainShinyGold = Object.keys(colorRules).reduce((number, color) => isRuleContainShinyGoldBag(colorRules, color) ? number + 1 : number, 0);
+    const numberRulesContainShinyGold = Object.keys(colorRules).reduce((number, color) => (isRuleContainShinyGoldBag(colorRules, color) ? number + 1 : number), 0);
     return numberRulesContainShinyGold;
 };
 
@@ -39,13 +37,13 @@ const extractColorName = (textColorBag) => {
     if (isColorRuleName) {
         return textColorBag.slice(0, -6);
     }
-    const quantity = parseInt(textColorBag);
+    const quantity = parseInt(textColorBag, 10);
     const indexBag = textColorBag.indexOf('bag');
 
     const colorContainName = textColorBag.slice(3, indexBag - 1);
     return {
         color: colorContainName,
-        qte: quantity
+        qte: quantity,
     };
 };
 
@@ -53,12 +51,10 @@ const isRuleContainShinyGoldBag = (colorRules, color) => {
     if (!colorRules[color].length) {
         return false;
     }
-    if (colorRules[color].some(colorContain => colorContain.color === 'shiny gold')) {
+    if (colorRules[color].some((colorContain) => colorContain.color === 'shiny gold')) {
         return true;
     }
     return colorRules[color].some((colorContain) => isRuleContainShinyGoldBag(colorRules, colorContain.color));
 };
 
-const sumBags = (colorRules, color) => {
-    return colorRules[color].reduce((sum, colorRule) => sum + colorRule.qte + (colorRule.qte * sumBags(colorRules, colorRule.color)), 0);
-};
+const sumBags = (colorRules, color) => colorRules[color].reduce((sum, colorRule) => sum + colorRule.qte + (colorRule.qte * sumBags(colorRules, colorRule.color)), 0);

@@ -1,12 +1,11 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable indent */
-const {
-    getData
-} = require('./input');
+const { getData } = require('./input');
 
 (async () => {
     const data = await getData(12);
     const puzzle = data.data.split('\n');
-    puzzle.length = puzzle.length - 1;
+    puzzle.length -= 1;
     // console.log(puzzle);
     console.log(resultPart1(puzzle));
     console.log(resultPart2(puzzle));
@@ -24,7 +23,6 @@ const resultPart2 = (puzzle) => {
     return ship.getManhattanDistance();
 };
 
-
 class Ship {
     constructor(facing, isWaypoint) {
         this.facing = facing;
@@ -33,7 +31,7 @@ class Ship {
         this.isWaypoint = isWaypoint;
         this.waypoint = {
             north: 1,
-            east: 10
+            east: 10,
         };
     }
 
@@ -45,7 +43,7 @@ class Ship {
 
     execInstruction(instruction) {
         const action = instruction.slice(0, 1);
-        const value = parseInt(instruction.slice(1));
+        const value = parseInt(instruction.slice(1), 10);
 
         if (action === 'F') {
             this.isWaypoint ? this.go(value) : this.setDistance(this.getOrientation(), value);
@@ -72,6 +70,7 @@ class Ship {
         this.setDistance(eastWaypointOrientation, value * this.waypoint.east);
     }
 
+    // eslint-disable-next-line consistent-return
     getOrientation(base = 0) {
         const orientation = (this.facing + base) % 360;
         if (orientation === 0) return 'N';
@@ -94,6 +93,7 @@ class Ship {
             case 'S':
                 this.northDistance -= value;
                 break;
+            default:
         }
     }
 
@@ -157,6 +157,7 @@ class Ship {
                     this.waypoint.east -= value;
                 }
                 break;
+            default:
         }
     }
 
@@ -171,9 +172,8 @@ class Ship {
                 value = 90;
                 break;
             default:
-                value = parseInt(instruction.slice(1));
+                value = parseInt(instruction.slice(1), 10);
         }
         this.facing = (this.facing + value) % 360;
-
     }
 }
