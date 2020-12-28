@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "start": "node index",
     "test": "jest"
   },
   "dependencies": {
