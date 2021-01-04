@@ -18,11 +18,7 @@ const result = (puzzle, targetTurn) => {
     while (currentTurn !== targetTurn) {
         const lastIndex = indexHistory.get(currentValue);
         indexHistory.set(currentValue, currentTurn);
-        if (lastIndex) {
-            currentValue = currentTurn - lastIndex;
-        } else {
-            currentValue = 0;
-        }
+        currentValue = lastIndex ? currentTurn - lastIndex : 0;
         currentTurn += 1;
     }
     return currentValue;
