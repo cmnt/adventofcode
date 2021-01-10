@@ -18,6 +18,7 @@
     "no-bitwise": "off",
     "no-param-reassign": "off",
     "no-shadow": "off",
-    "array-callback-return": "off"
+    "array-callback-return": "off",
+    "no-prototype-builtins": "off"
   }
 }
