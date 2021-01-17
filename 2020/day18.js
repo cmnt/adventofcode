@@ -9,7 +9,7 @@ const { getData } = require('./input');
     puzzle.length -= 1;
     // console.log(puzzle);
     console.log(resultPart1(puzzle));
-    // console.log(resultPart2(puzzle));
+    console.log(resultPart2(puzzle));
 })();
 
 const example = [
@@ -86,4 +86,49 @@ const isClosedP = (e) => e === ')';
 
 // PART2
 const resultPart2 = (puzzle) => {
+    const puzzleAddPriority = puzzle.map(addParenthesesToAdd)
+        .reduce((sum, line) => sum + evalExpression(line), 0);
+    return puzzleAddPriority;
+};
+
+const addParenthesesToAdd = (expression) => {
+    let newExpression = [...expression];
+
+    for (let index = newExpression.length - 1; index >= 0; index -= 1) {
+        if (!(newExpression[index] === '+')) {
+            continue;
+        }
+
+        const indexValueAfter = isOpenedP(newExpression[index + 1]) ? findIndexClodedP(index + 1, newExpression) : index + 1;
+        const indexValueBefore = isClosedP(newExpression[index - 1]) ? findIndexOpenP(index - 1, newExpression) : index - 1;
+
+        newExpression = [
+            ...newExpression.slice(0, indexValueBefore), '(',
+            ...newExpression.slice(indexValueBefore, indexValueAfter + 1), ')',
+            ...newExpression.slice(indexValueAfter + 1),
+        ];
+    }
+
+    return newExpression;
+};
+
+const findIndexOpenP = (indexClosedP, expression) => {
+    let otherClosedP = 0;
+    let indexOpenedP;
+
+    for (let index = indexClosedP - 1; index >= 0; index -= 1) {
+        const element = expression[index];
+        if (isOpenedP(element)) {
+            if (!otherClosedP) {
+                indexOpenedP = index;
+                break;
+            }
+            otherClosedP -= 1;
+        }
+
+        if (isClosedP(element)) {
+            otherClosedP += 1;
+        }
+    }
+    return indexOpenedP;
 };
