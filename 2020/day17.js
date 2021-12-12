@@ -58,7 +58,7 @@ const applyCycle = (state) => {
 
 const getNumberActiveStates = (state) => _.flattenDeep(state).filter((field) => field === '#').length;
 const translateNextCoordsToCurrentCoords = (coords) => coords.map((coord) => coord - 1);
-const isActiveState = (coords, state) => !!(state[coords[0]] && state[coords[0]][coords[1]] && state[coords[0]][coords[1]][coords[2]] && state[coords[0]][coords[1]][coords[2]] === '#');
+const isActiveState = (coords, state) => !!(state[coords[0]]?.[coords[1]]?.[coords[2]] && state[coords[0]][coords[1]][coords[2]] === '#');
 
 const getSumActiveNeighbors = (coords, state) => {
     let sum = 0;
@@ -168,17 +168,6 @@ const setState = (pocket, coords, state) => {
 };
 
 const isActiveStateGeneric = (coords, pocket) => {
-    let currentCoords = '';
-    for (let index = 0; index < coords.length; index += 1) {
-        const coord = coords[index];
-        currentCoords = `${currentCoords}[${coord}]`;
-        const exist = eval(`pocket${currentCoords}`);
-        if (!exist) {
-            return false;
-        }
-
-        if (index === coords.length - 1) {
-            return eval(`pocket${currentCoords} === "#"`);
-        }
-    }
+    const coordsWithOptionalChaining = coords.slice(1).reduce((acc, coord) => `${acc}?.[${coord}]`, `[${coords[0]}]`);
+    return eval(`pocket${coordsWithOptionalChaining} === "#"`);
 };
