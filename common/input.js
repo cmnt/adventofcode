@@ -16,9 +16,15 @@ const getData = async (year, dayNum) => {
     }
 }
 
-const formatToIntArray = (input) => input.trim().split('\n').map((text) => parseInt(text))
+const formatToArray = (input, type) => input.trim().split('\n').map((text) => {
+    if (type === 'int') {
+        return parseInt(text)
+    }
+    return text
+})
+
 
 module.exports = {
     getData,
-    formatToIntArray,
+    formatToArray,
 }

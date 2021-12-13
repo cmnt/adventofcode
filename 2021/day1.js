@@ -1,8 +1,8 @@
-const { getData, formatToIntArray } = require('../common/input');
+const { getData, formatToArray } = require('../common/input');
 
 (async () => {
     const { data } = await getData(2021, 1)
-    const puzzle = formatToIntArray(data)
+    const puzzle = formatToArray(data, 'int')
     console.log(resultPart1(puzzle))
     console.log(resultPart2(puzzle))
 })()
