@@ -1,10 +1,9 @@
-const axios = require('axios')
-const dotenv = require('dotenv')
+import axios from 'axios'
+import dotenv from 'dotenv'
 
 dotenv.config()
 
-// eslint-disable-next-line consistent-return
-const getData = async (year, dayNum) => {
+export const getData = async (year: string, dayNum: string) => {
     try {
         return await axios.get(`https://adventofcode.com/${year}/day/${dayNum}/input`, {
             headers: {
@@ -16,15 +15,10 @@ const getData = async (year, dayNum) => {
     }
 }
 
-const formatToArray = (input, type) => input.trim().split('\n').map((text) => {
+export const formatToArray = (input: string, type: string) => input.trim().split('\n').map((text) => {
     if (type === 'int') {
         return parseInt(text)
     }
     return text
 })
 
-
-module.exports = {
-    getData,
-    formatToArray,
-}
