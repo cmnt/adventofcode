@@ -14,14 +14,31 @@ import ISolution from '@/common/types/Solution'
 
 export default class ConcretePuzzle extends ISolution {
 
-  public solveFirst(): string | number {
-    // WRITE SOLUTION 1 
-    return 'solution 1'
+  public solveFirst(): number {
+    const reports = initPuzzle(this.input)
+
+    const countSafeReports = reports.reduce((count, levels) => isSafeReport(levels, 3) ? count + 1 : count
+      , 0)
+
+    return countSafeReports
   }
 
-  public solveSecond(): string | number {
+  public solveSecond(): number {
     // WRITE SOLUTION 2
-    return 'solution 2'
+    return 0
   }
 
+}
+
+const initPuzzle = (input): number[][] => {
+  const puzzleInput = input.split('\n')
+  return puzzleInput
+    .map((line) => line.split(' ').map(Number))
+}
+
+const isSafeReport = (numbers: number[], maxDifference: number): boolean => {
+  const increasingWithmaxStep = numbers.every((num, i) => i === 0 || (num > numbers[i - 1] && num - numbers[i - 1] <= maxDifference))
+  const decreasingWithMaxStep = numbers.every((num, i) => i === 0 || (num < numbers[i - 1] && numbers[i - 1] - num <= maxDifference))
+  console.log(increasingWithmaxStep, decreasingWithMaxStep)
+  return increasingWithmaxStep || decreasingWithMaxStep
 }

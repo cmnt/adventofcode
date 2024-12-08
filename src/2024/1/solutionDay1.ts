@@ -14,7 +14,7 @@ import ISolution from '@/common/types/Solution'
 
 export default class ConcretePuzzle extends ISolution {
 
-  public solveFirst(): string | number {
+  public solveFirst(): number {
     const { leftList, rightList } = initPuzzle(this.input)
 
     const sortedLeftList = leftList.toSorted()
@@ -28,7 +28,7 @@ export default class ConcretePuzzle extends ISolution {
     return distance
   }
 
-  public solveSecond(): string | number {
+  public solveSecond(): number {
     const { leftList, rightList } = initPuzzle(this.input)
 
     const distance = leftList.reduce((sumDistance, left) => {
