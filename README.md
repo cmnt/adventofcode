@@ -2,7 +2,7 @@
 
 Solving http://adventofcode.com puzzles.
 
-Using Node v6 and ES6.
+Using Bun
 
 ## Run
 

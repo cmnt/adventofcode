@@ -1,6 +1,15 @@
 {
-    "compilerOptions": {
-      "esModuleInterop": true,
-      "module": "commonjs",
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "resolveJsonModule": true,
+    "noImplicitAny": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
     }
-  }
+  },
+  "exclude": ["node_modules"]
+}
