@@ -30,21 +30,11 @@ export default class ConcretePuzzle extends ISolution {
   public solveSecond(): number {
     const memory = this.input
 
-    const inputText = `
-    some text
-    mul(12,34)
-    some more text
-    do()
-    don't()
-    mul(123,456)
-    mul(1234,56) // This will not match because 1234 has more than 3 digits
-    `
-
     const regex = /mul\((\d{1,3}),(\d{1,3})\)|do\(\)|don't\(\)/g
     const matches = [...memory.matchAll(regex)]
-      .map(a => a.at(0)?.startsWith('mul') ? a.slice(1, 3) : a.at(0))
+      .map(a => a.at(0)?.startsWith('mul') ? a.slice(1, 3).map(Number) : a.at(0))
 
-    const mults = matches.reduce((acc, match) => {
+    const result = matches.reduce((acc, match): { isDoing: boolean, result: number } => {
       const { isDoing, result } = acc
 
       if (match === 'do()') {
@@ -57,12 +47,12 @@ export default class ConcretePuzzle extends ISolution {
         return { ...acc, isDoing: false }
       }
 
-      const [a, b] = match as [string, string]
-      return { ...acc, result: result + Number(a) * Number(b) }
+      const [a, b] = match as number[]
+      return { ...acc, result: result + a * b }
 
-    }, { isDoing: true, result: 0 })
+    }, { isDoing: true, result: 0 }).result
 
-    return mults.result
+    return result
   }
 
 }
