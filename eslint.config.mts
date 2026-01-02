@@ -2,9 +2,9 @@
 import tseslint from 'typescript-eslint'
 import eslint from '@eslint/js'
 import globals from "globals"
+import { defineConfig } from "eslint/config"
 
-
-export default tseslint.config(
+export default defineConfig([
   eslint.configs.recommended,
   tseslint.configs.recommended,
   {
@@ -46,5 +46,5 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-expressions": "off",
     },
   },
-)
+])
 

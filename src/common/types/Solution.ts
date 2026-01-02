@@ -1,5 +1,5 @@
 export default abstract class Solution implements ISolution {
-  protected input: string
+  protected input!: string
 
   public abstract solveFirst(): string | number
   public abstract solveSecond(): string | number
@@ -14,7 +14,7 @@ export default abstract class Solution implements ISolution {
   }
 
   public static formatToArray(input, type) {
-    return input.trim().split('\n').map((text) => type === 'int' ? parseInt(text) : text)
+    return input.trim().split('\n').map((text) => type === 'int' ? Number.parseInt(text) : text)
   }
 
 }

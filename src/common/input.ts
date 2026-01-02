@@ -14,7 +14,7 @@ export const fetchInput = async (year: number, dayNum: number) => {
 
 export const formatToArray = (input: string, type: string) => input.trim().split('\n').map((text) => {
   if (type === 'int') {
-    return parseInt(text)
+    return Number.parseInt(text)
   }
   return text
 })
