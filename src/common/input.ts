@@ -5,8 +5,12 @@ export const fetchInput = async (year: number, dayNum: number) => {
         cookie: `session=${process.env.SESSION};`,
       },
     })
+    if (!response.ok) {
+      throw new Error(`Failed to fetch input: ${response.status} ${response.statusText}`)
+    }
     return response.text()
   } catch (e) {
+
     console.error(e)
     process.exit(1)
   }

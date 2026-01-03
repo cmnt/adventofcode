@@ -3,10 +3,10 @@ import ISolution from '@/common/types/Solution'
 /**
  * @class ConcretePuzzle
  * @description 
- * attribute herited from ISolution:
+ * attribute inherited from ISolution:
  * - input: string
  * 
- * methods herited from ISolution:
+ * methods inherited from ISolution:
  * - display(): void
  * - static formatToArray(input, type): Array<string | number>
  * 
